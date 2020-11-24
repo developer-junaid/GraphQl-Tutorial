@@ -1,0 +1,22 @@
+.students-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.students-container table {
+  width: 50%;
+  border: 2px solid black;
+}
+
+.students-container td,
+th {
+  border: 1px solid black;
+  padding: 1rem;
+}
+.students-container th {
+  background: rgba(99, 96, 96, 0.658);
+}
