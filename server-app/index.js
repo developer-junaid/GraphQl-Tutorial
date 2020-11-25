@@ -2,7 +2,7 @@
 const { ApolloServer, gql } = require("apollo-server")
 
 // Data
-const students = [
+let students = [
   {
     id: 1,
     name: "Junaid",
@@ -25,15 +25,39 @@ const students = [
 
 // Define Resolvers
 const resolvers = {
+  // Query
   Query: {
     students: () => {
       // Business Logic
       return students
     },
   },
+
+  // Mutation
+  Mutation: {
+    addStudent: (_, { input }) => {
+      // Whenever new Student is added
+      // Add it to the data
+      students.push({
+        name: input.name,
+        age: input.age,
+        email: input.email,
+        id: students[students.length - 1]["id"] + 1,
+      })
+
+      return {
+        name: input.name,
+        age: input.age,
+        email: input.email,
+        id: students[students.length - 1]["id"] + 1,
+      }
+    },
+  },
 }
 
 // Define Schema (Types)
+
+// Queries and Mutations
 const typeDefs = gql`
   type Student {
     id: Int
@@ -42,10 +66,21 @@ const typeDefs = gql`
     age: Int
   }
 
+  input StdInput {
+    name: String
+    email: String
+    age: Int
+  }
+
   type Query {
     students: [Student]
   }
+
+  type Mutation {
+    addStudent(input: StdInput): Student
+  }
 `
+//
 
 // Create server
 const server = new ApolloServer({ typeDefs, resolvers })
